@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
-public class Player { //implements Serializable {
+public class Player implements Serializable {
 
     @Id
     @GeneratedValue
