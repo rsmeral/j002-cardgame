@@ -8,7 +8,9 @@
     <body>
         <h1>Game running</h1>
         <h2>Round #{gameController.active.currentRoundIndex + 1}</h2>
-        <h3>Card #{gameController.active.currentCard}</h3>
+        <h3>#{gameController.active.currentCard.name}</h3>
+        <img src="img/#{gameController.active.currentCard}.png" height="200" />
+        <br/>
         <h:form>
             <h:dataTable value="#{gameController.active.currentRound.playerStates}" var="ps">
                 <h:column>
@@ -21,23 +23,31 @@
                 </h:column>
                 <h:column rendered="#{not gameController.active.lastRound}">
                     <f:facet name="header">Bet</f:facet>
-                    <h:selectOneMenu value="#{ps.bet.type}">
+                    <h:selectOneMenu value="#{ps.bet.type}" rendered="#{gameController.active.state == 'RUNNING'}">
                         <f:selectItems value="#{utils.betTypes}" />
                     </h:selectOneMenu>
+                    <h:outputText value="#{ps.bet.type}" rendered="#{gameController.active.state == 'FINISHED'}" />
                 </h:column>
                 <h:column rendered="#{not gameController.active.lastRound}">
                     <f:facet name="header">Bet Value</f:facet>
-                    <h:inputText value="#{ps.bet.value}" />
+                    <h:inputText value="#{ps.bet.value}" rendered="#{gameController.active.state == 'RUNNING'}" />
+                    <h:outputText value="#{ps.bet.value}" rendered="#{gameController.active.state == 'FINISHED'}" />
                 </h:column>
             </h:dataTable>
-            <h:commandButton value="Proceed" action="#{gameController.nextRound()}" rendered="#{not gameController.active.lastRound}"/>
-            <h:commandButton value="Finish" action="#{gameController.finish()}" rendered="#{gameController.active.lastRound}"/>
+            <h:commandButton value="Previous" action="#{gameController.viewPreviousRound()}" rendered="#{(not gameController.active.firstRound) and (gameController.active.state == 'FINISHED')}"/>
+            <h:commandButton value="Next" action="#{gameController.viewNextRound()}" rendered="#{(not gameController.active.lastRound) and (gameController.active.state == 'FINISHED')}"/>
             <hr />
-            <h:commandButton value="Save" action="#{gameController.save()}" rendered="#{not gameController.active.lastRound}"/>
+            <h:commandButton value="Back to Main Menu" action="gamelist" rendered="#{gameController.active.state == 'FINISHED'}" />
             
+            <h:commandButton value="Proceed" action="#{gameController.nextRound()}" rendered="#{(not gameController.active.lastRound) and (gameController.active.state == 'RUNNING')}"/>
+            <h:commandButton value="Finish" action="#{gameController.finish()}" rendered="#{gameController.active.lastRound and (gameController.active.state == 'RUNNING')}"/>
+            <hr />
+            <h:commandButton value="Save" action="#{gameController.save()}" rendered="#{not gameController.active.lastRound and (gameController.active.state == 'RUNNING')}"/>
+
         </h:form>
         <p>
-           History of drawn cards goes here. 
+            Drawn cards:<br/>
+            #{gameController.active.drawnCards}
         </p>
     </body>
 </html>

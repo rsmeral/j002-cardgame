@@ -52,9 +52,9 @@
                     <f:facet name="header">Players</f:facet>
                     #{game.playerNames}
                 </h:column>
-                <!--                <h:column>
-                                    <h:commandButton value="Load" action="#{gameController.replay(game)}" />
-                                </h:column>-->
+                <h:column>
+                    <h:commandButton value="Replay" action="#{gameController.replay(game)}" />
+                </h:column>
             </h:dataTable>
         </h:form>
     </body>

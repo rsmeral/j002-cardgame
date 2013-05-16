@@ -1,6 +1,7 @@
 package cz.muni.fi.j002.cardgamee.gameplay;
 
 import cz.muni.fi.j002.cardgamee.model.Game;
+import cz.muni.fi.j002.cardgamee.model.Round;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -16,7 +17,11 @@ public class GameRepository {
         Game g = em.find(Game.class, game.getId());
         Hibernate.initialize(g.getPlayers());
         Hibernate.initialize(g.getRounds());
+        for(Round r : g.getRounds()) {
+            Hibernate.initialize(r.getPlayerStates());
+        }
         Hibernate.initialize(g.getDeck());
+        
         return g;
 
     }

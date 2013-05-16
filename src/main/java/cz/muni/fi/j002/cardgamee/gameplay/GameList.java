@@ -25,7 +25,7 @@ public class GameList {
     @Produces
     @Named("bestGames")
     public List<Game> getBest() {
-        return em.createQuery("select g from Game g order by g.score desc", Game.class)
+        return em.createQuery("select g from Game g where g.state=cz.muni.fi.j002.cardgamee.model.GameState.FINISHED order by g.score desc", Game.class)
                 .setMaxResults(BEST_GAMES_COUNT).getResultList();
     }
 }

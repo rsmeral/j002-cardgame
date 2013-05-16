@@ -53,7 +53,8 @@ public class GameController implements Serializable {
     }
     
     public String replay(Game game) {
-        activeGame = game;
+        activeGame = gr.load(game);
+        activeGame.viewRound(1);
         return "game";
     }
 
@@ -71,6 +72,14 @@ public class GameController implements Serializable {
     public void nextRound() {
         gl.nextRound(activeGame);
     }
+    
+    public void viewNextRound() {
+        activeGame.viewRound(activeGame.getCurrentRoundIndex()+2);
+    }
+    
+    public void viewPreviousRound() {
+        activeGame.viewRound(activeGame.getCurrentRoundIndex());
+    }
 
     public int getNumOfPlayers() {
         return numOfPlayers;
@@ -79,4 +88,6 @@ public class GameController implements Serializable {
     public void setNumOfPlayers(int numOfPlayers) {
         this.numOfPlayers = numOfPlayers;
     }
+    
+    
 }

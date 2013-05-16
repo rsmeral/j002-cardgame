@@ -36,7 +36,7 @@ public class Game implements Serializable {
     private Date dateStarted;
 
     private BigDecimal initialBalance;
-    
+
     private int numOfRounds;
 
     /**
@@ -141,11 +141,15 @@ public class Game implements Serializable {
 
     public Round getCurrentRound() {
         // TODO: UGLY!! WARNING!! EXCEPTIONS NOT HANDLED!!
-        return rounds.get(rounds.size() - 1);
+        return rounds.get(getCurrentRoundIndex());
     }
 
     public boolean isLastRound() {
-        return getCurrentRoundIndex() + 1 == deck.size();
+        return numOfRounds == deck.size();
+    }
+
+    public boolean isFirstRound() {
+        return getCurrentRoundIndex() == 0;
     }
 
     public void setWinner(Player winner) {
@@ -160,7 +164,11 @@ public class Game implements Serializable {
         return names;
     }
 
-    public int getNumOfRounds() {
-        return numOfRounds;
+    public void viewRound(int roundIndex) {
+        numOfRounds = roundIndex;
+    }
+
+    public List<Card> getDrawnCards() {
+        return new ArrayList<Card>(deck.subList(0, getCurrentRoundIndex()));
     }
 }
