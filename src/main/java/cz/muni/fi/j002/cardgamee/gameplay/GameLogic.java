@@ -25,17 +25,36 @@ public class GameLogic {
             ps.setBalance(game.getInitialBalance());
             round.add(ps);
         }
+        System.out.println("currentRoundIndex=" + game.getCurrentRoundIndex() +
+                " roundSize=" + game.getRounds().size() +
+                "\nCurrentCard=" + game.getCurrentCard() +
+                " nextCard=" + game.getNextCard());
+
         round.setCard(game.getCurrentCard());
         game.getRounds().add(round);
         game.setState(GameState.RUNNING);
+
+
+        System.out.println("currentRoundIndex=" + game.getCurrentRoundIndex() +
+                " roundSize=" + game.getRounds().size() +
+                "\nCurrentCard=" + game.getCurrentCard() +
+                " nextCard=" + game.getNextCard());
+        System.out.println("======");
+
     }
 
     public void nextRound(Game game) {
         if (game.isLastRound()) {
             evaluateGame(game);
+            System.out.println("Game ends next turn.");
         } else {
             Card currentCard = game.getCurrentCard();
             Card nextCard = game.getNextCard();
+
+            System.out.println("currentRoundIndex=" + game.getCurrentRoundIndex() +
+                    " roundSize=" + game.getRounds().size() +
+                    "\nCurrentCard=" + game.getCurrentCard() +
+                    " nextCard=" + game.getNextCard());
 
             // positive = higher, negative = lower, 0 = equal
             int diff = nextCard.getValue() - currentCard.getValue();

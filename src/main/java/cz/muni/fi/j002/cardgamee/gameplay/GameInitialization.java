@@ -36,6 +36,7 @@ public class GameInitialization {
         }
 
         Collections.shuffle(deck);
+        System.out.println(deck);
         return deck;
     }
 }

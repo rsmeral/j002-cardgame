@@ -37,7 +37,7 @@ public class Game implements Serializable {
     @ElementCollection
     private List<Card> deck;
 
-    @Column(name = "Status")
+//    @Column(name = "Status")
     @Enumerated
     private GameState state = GameState.NEW;
 
@@ -133,7 +133,7 @@ public class Game implements Serializable {
     }
 
     public Card getNextCard() {
-        return deck.get(getCurrentRoundIndex() + 1);
+        return deck.get(getCurrentRoundIndex()+1);
     }
 
     public Round getCurrentRound() {
@@ -142,6 +142,7 @@ public class Game implements Serializable {
     }
 
     public boolean isLastRound() {
-        return getCurrentRoundIndex() == deck.size();
+        return getCurrentRoundIndex()+1 == deck.size();
     }
 }
+
