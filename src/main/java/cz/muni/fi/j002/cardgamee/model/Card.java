@@ -1,5 +1,8 @@
 package cz.muni.fi.j002.cardgamee.model;
 
+import javax.persistence.Entity;
+
+
 public enum Card {
 
     CLUB_2(2),

@@ -17,5 +17,29 @@ public class Bet {
     
     @Enumerated
     private BetType type;
-    
+
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public BigDecimal getValue() {
+        return value;
+    }
+
+    public void setValue(BigDecimal value) {
+        this.value = value;
+    }
+
+    public BetType getType() {
+        return type;
+    }
+
+    public void setType(BetType type) {
+        this.type = type;
+    }
 }
