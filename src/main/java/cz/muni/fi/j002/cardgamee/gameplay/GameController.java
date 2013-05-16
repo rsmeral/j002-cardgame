@@ -1,46 +1,64 @@
 package cz.muni.fi.j002.cardgamee.gameplay;
 
-import cz.muni.fi.j002.cardgamee.model.Card;
 import cz.muni.fi.j002.cardgamee.model.Game;
-import cz.muni.fi.j002.cardgamee.model.GameState;
-import cz.muni.fi.j002.cardgamee.model.Player;
-
-import javax.ejb.Stateful;
-import javax.enterprise.context.SessionScoped;
-import javax.inject.Named;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Singleton;
 
-@Stateful
-@SessionScoped
+@Singleton
 @Named
 public class GameController implements Serializable {
 
+    
     private Game activeGame;
-    
-    public void newGame() {
+
+    private int numOfPlayers;
+
+    @Inject
+    private GameInitialization gi;
+
+    @Inject
+    private GameLogic gl;
+
+    public String newGame() {
+        // initialize users
         activeGame = new Game();
+        gi.initialize(activeGame, numOfPlayers);
 
-        // INITIALIZE PLAYERS, DECK
-        if (activeGame.getState() == null || activeGame.getState() == GameState.NEW) {
-            GameInitialization.initialize(activeGame);
-        }
-
-
-
-        
+        return "newgame";
     }
 
-
-
-    public void saveGame() {
-        
-    }
-    
-    public void loadGame(Game game) {
-        
+    public String start() {
+        gl.start(activeGame);
+        return "game";
     }
 
+    public void save() {
+    }
 
+    public void load(Game game) {
+    }
+
+    public void delete(Game game) {
+    }
+
+//    public void replay(Game game) {
+//        // TODO
+//    }
+    public Game getActive() {
+        return activeGame;
+    }
+
+    public void nextRound() {
+        gl.nextRound(activeGame);
+    }
+
+    public int getNumOfPlayers() {
+        return numOfPlayers;
+    }
+
+    public void setNumOfPlayers(int numOfPlayers) {
+        this.numOfPlayers = numOfPlayers;
+    }
 }

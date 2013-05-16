@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <head>
+        <title>CardGamEE</title>
+    </head>
+    <body>
+        <h1>Card game</h1>
+        <h:form>        
+            <h:inputText value="${gameController.numOfPlayers}" />
+            <h:commandButton value="New Game" action="#{gameController.newGame()}" />
+            <h2>Saved games</h2>
+            <h:dataTable value="#{savedGames}" var="game">
+                <h:column>
+                    <f:facet name="header">Date</f:facet>
+                    #{game.dateStarted}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Players</f:facet>
+                    #{game.players}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Round</f:facet>
+                    #{game.currentRound}
+                </h:column>
+                <h:column>
+                    <h:commandButton value="Load" action="#{gameController.load(game)}" />
+                    <h:commandButton value="Delete" action="#{gameController.delete(game)}" />
+                </h:column>
+            </h:dataTable>
+            <h2>High scores</h2>
+            <h:dataTable value="#{bestGames}" var="game">
+                <h:column>
+                    <f:facet name="header">Score</f:facet>
+                    #{game.score}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Winner</f:facet>
+                    #{game.winner}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Date</f:facet>
+                    #{game.dateStarted}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Players</f:facet>
+                    #{game.players}
+                </h:column>
+                <!--                <h:column>
+                                    <h:commandButton value="Load" action="#{gameController.replay(game)}" />
+                                </h:column>-->
+            </h:dataTable>
+        </h:form>
+    </body>
+</html>

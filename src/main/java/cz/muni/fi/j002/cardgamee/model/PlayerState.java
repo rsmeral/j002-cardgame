@@ -1,12 +1,13 @@
 package cz.muni.fi.j002.cardgamee.model;
 
+import java.io.Serializable;
+import java.math.BigDecimal;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
-import java.math.BigDecimal;
 
 @Entity
-public class PlayerState {
+public class PlayerState implements Serializable {
 
     @Id
     private Long id;
@@ -15,7 +16,9 @@ public class PlayerState {
     private Player player;
 
     private BigDecimal balance;
-
+    
+    @OneToOne
+    private Bet bet = new Bet();
 
     public Long getId() {
         return id;
@@ -40,4 +43,13 @@ public class PlayerState {
     public void setBalance(BigDecimal balance) {
         this.balance = balance;
     }
+
+    public Bet getBet() {
+        return bet;
+    }
+
+    public void setBet(Bet bet) {
+        this.bet = bet;
+    }
+    
 }

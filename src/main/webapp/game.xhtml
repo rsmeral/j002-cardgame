@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <head>
+        <title>CardGamEE</title>
+    </head>
+    <body>
+        <h1>Game running</h1>
+        <h2>Round #{gameController.active.currentRoundIndex}</h2>
+        <h3>Card #{gameController.active.currentCard}</h3>
+        <h:form>
+            <h:dataTable value="#{gameController.active.currentRound.playerStates}" var="ps">
+                <h:column>
+                    <f:facet name="header">Player</f:facet>
+                    <h:outputText value="#{ps.player.name}" />
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Balance</f:facet>
+                    <h:outputText value="#{ps.balance}" />
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Bet</f:facet>
+                    <h:selectOneMenu value="#{ps.bet.type}">
+                        <f:selectItems value="#{utils.betTypes}" />
+                    </h:selectOneMenu>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Bet Value</f:facet>
+                    <h:inputText value="#{ps.bet.value}" />
+                </h:column>
+            </h:dataTable>
+            <h:commandButton value="Proceed" action="#{gameController.nextRound()}" />
+        </h:form>
+        <p>
+           History of drawn cards goes here. 
+        </p>
+    </body>
+</html>
