@@ -10,7 +10,6 @@ import javax.inject.Singleton;
 @Named
 public class GameController implements Serializable {
 
-    
     private Game activeGame;
 
     private int numOfPlayers;
@@ -21,11 +20,14 @@ public class GameController implements Serializable {
     @Inject
     private GameLogic gl;
 
+    @Inject
+    private GameRepository gr;
+
     public String newGame() {
         // initialize users
         activeGame = new Game();
         gi.initialize(activeGame, numOfPlayers);
-
+        gr.create(activeGame);
         return "newgame";
     }
 
@@ -34,13 +36,29 @@ public class GameController implements Serializable {
         return "game";
     }
 
-    public void save() {
+    public String finish() {
+        gl.evaluateGame(activeGame);
+        gr.save(activeGame);
+        return "finish";
     }
 
-    public void load(Game game) {
+    public String save() {
+        gr.save(activeGame);
+        return "gamelist";
+    }
+
+    public String load(Game game) {
+        activeGame = gr.load(game);
+        return "game";
+    }
+    
+    public String replay(Game game) {
+        activeGame = game;
+        return "game";
     }
 
     public void delete(Game game) {
+        gr.delete(game);
     }
 
 //    public void replay(Game game) {

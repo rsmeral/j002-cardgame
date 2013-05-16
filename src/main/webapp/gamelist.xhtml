@@ -9,9 +9,11 @@
     </head>
     <body>
         <h1>Card game</h1>
-        <h:form>        
+        <h:form>
+            Number of players:
             <h:inputText value="${gameController.numOfPlayers}" />
             <h:commandButton value="New Game" action="#{gameController.newGame()}" />
+            <hr />
             <h2>Saved games</h2>
             <h:dataTable value="#{savedGames}" var="game">
                 <h:column>
@@ -20,17 +22,18 @@
                 </h:column>
                 <h:column>
                     <f:facet name="header">Players</f:facet>
-                    #{game.players}
+                    #{game.playerNames}
                 </h:column>
                 <h:column>
                     <f:facet name="header">Round</f:facet>
-                    #{game.currentRound}
+                    #{game.currentRoundIndex + 1}
                 </h:column>
                 <h:column>
                     <h:commandButton value="Load" action="#{gameController.load(game)}" />
                     <h:commandButton value="Delete" action="#{gameController.delete(game)}" />
                 </h:column>
             </h:dataTable>
+            <hr />
             <h2>High scores</h2>
             <h:dataTable value="#{bestGames}" var="game">
                 <h:column>
@@ -39,7 +42,7 @@
                 </h:column>
                 <h:column>
                     <f:facet name="header">Winner</f:facet>
-                    #{game.winner}
+                    #{game.winner.name}
                 </h:column>
                 <h:column>
                     <f:facet name="header">Date</f:facet>
@@ -47,7 +50,7 @@
                 </h:column>
                 <h:column>
                     <f:facet name="header">Players</f:facet>
-                    #{game.players}
+                    #{game.playerNames}
                 </h:column>
                 <!--                <h:column>
                                     <h:commandButton value="Load" action="#{gameController.replay(game)}" />

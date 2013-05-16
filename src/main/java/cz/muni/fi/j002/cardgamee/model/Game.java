@@ -5,31 +5,39 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
+import javax.persistence.Transient;
 
 @Entity
 public class Game implements Serializable {
 
     @Id
+    @GeneratedValue
     private Long id;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Round> rounds = new ArrayList<Round>();
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Player> players;
 
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date dateStarted;
 
     private BigDecimal initialBalance;
+    
+    private int numOfRounds;
 
     /**
      * Initial card deck
@@ -37,7 +45,7 @@ public class Game implements Serializable {
     @ElementCollection
     private List<Card> deck;
 
-//    @Column(name = "Status")
+    @Column(name = "status")
     @Enumerated
     private GameState state = GameState.NEW;
 
@@ -45,8 +53,6 @@ public class Game implements Serializable {
 
     @ManyToOne
     private Player winner;
-
-    private boolean finished = false;
 
     public Long getId() {
         return id;
@@ -58,6 +64,11 @@ public class Game implements Serializable {
 
     public List<Round> getRounds() {
         return rounds;
+    }
+
+    public void addRound(Round e) {
+        rounds.add(e);
+        numOfRounds = rounds.size();
     }
 
     public void setRounds(List<Round> rounds) {
@@ -100,14 +111,6 @@ public class Game implements Serializable {
         return winner;
     }
 
-    public boolean isFinished() {
-        return finished;
-    }
-
-    public void setFinished(boolean finished) {
-        this.finished = finished;
-    }
-
     public Date getDateStarted() {
         return dateStarted;
     }
@@ -125,7 +128,7 @@ public class Game implements Serializable {
     }
 
     public int getCurrentRoundIndex() {
-        return rounds.size();
+        return numOfRounds - 1;
     }
 
     public Card getCurrentCard() {
@@ -133,16 +136,31 @@ public class Game implements Serializable {
     }
 
     public Card getNextCard() {
-        return deck.get(getCurrentRoundIndex()+1);
+        return deck.get(getCurrentRoundIndex() + 1);
     }
 
     public Round getCurrentRound() {
-        // TODO: UGLY!! WARNING!! EXCEPTIONS NOT HANDLED!! 
+        // TODO: UGLY!! WARNING!! EXCEPTIONS NOT HANDLED!!
         return rounds.get(rounds.size() - 1);
     }
 
     public boolean isLastRound() {
-        return getCurrentRoundIndex()+1 == deck.size();
+        return getCurrentRoundIndex() + 1 == deck.size();
+    }
+
+    public void setWinner(Player winner) {
+        this.winner = winner;
+    }
+
+    public List<String> getPlayerNames() {
+        List<String> names = new ArrayList<String>();
+        for (Player p : getPlayers()) {
+            names.add(p.getName());
+        }
+        return names;
+    }
+
+    public int getNumOfRounds() {
+        return numOfRounds;
     }
 }
-

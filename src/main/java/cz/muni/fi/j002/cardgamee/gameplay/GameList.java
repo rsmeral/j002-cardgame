@@ -2,22 +2,24 @@ package cz.muni.fi.j002.cardgamee.gameplay;
 
 import cz.muni.fi.j002.cardgamee.model.Game;
 import java.util.List;
+import javax.ejb.Stateless;
 import javax.enterprise.inject.Produces;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
+@Stateless
 public class GameList {
 
     private static final int BEST_GAMES_COUNT = 10;
 
-    @PersistenceContext
+    @Inject
     private EntityManager em;
 
     @Produces
     @Named("savedGames")
     public List<Game> getSaved() {
-        return em.createQuery("select g from Game g where g.finished=false", Game.class).getResultList();
+        return em.createQuery("select g from Game g where g.state=cz.muni.fi.j002.cardgamee.model.GameState.RUNNING", Game.class).getResultList();
     }
 
     @Produces

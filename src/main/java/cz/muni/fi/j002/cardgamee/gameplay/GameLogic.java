@@ -18,6 +18,7 @@ public class GameLogic {
 
     public void start(Game game) {
         Round round = new Round();
+        game.addRound(round);
 
         for (Player p : game.getPlayers()) {
             PlayerState ps = new PlayerState();
@@ -25,72 +26,76 @@ public class GameLogic {
             ps.setBalance(game.getInitialBalance());
             round.add(ps);
         }
-        System.out.println("currentRoundIndex=" + game.getCurrentRoundIndex() +
-                " roundSize=" + game.getRounds().size() +
-                "\nCurrentCard=" + game.getCurrentCard() +
-                " nextCard=" + game.getNextCard());
+        System.out.println("currentRoundIndex=" + game.getCurrentRoundIndex()
+                + " roundSize=" + game.getRounds().size()
+                + "\nCurrentCard=" + game.getCurrentCard()
+                + " nextCard=" + game.getNextCard());
 
         round.setCard(game.getCurrentCard());
-        game.getRounds().add(round);
         game.setState(GameState.RUNNING);
 
 
-        System.out.println("currentRoundIndex=" + game.getCurrentRoundIndex() +
-                " roundSize=" + game.getRounds().size() +
-                "\nCurrentCard=" + game.getCurrentCard() +
-                " nextCard=" + game.getNextCard());
+        System.out.println("currentRoundIndex=" + game.getCurrentRoundIndex()
+                + " roundSize=" + game.getRounds().size()
+                + "\nCurrentCard=" + game.getCurrentCard()
+                + " nextCard=" + game.getNextCard());
         System.out.println("======");
 
     }
 
     public void nextRound(Game game) {
-        if (game.isLastRound()) {
-            evaluateGame(game);
-            System.out.println("Game ends next turn.");
-        } else {
-            Card currentCard = game.getCurrentCard();
-            Card nextCard = game.getNextCard();
+        Card currentCard = game.getCurrentCard();
+        Card nextCard = game.getNextCard();
 
-            System.out.println("currentRoundIndex=" + game.getCurrentRoundIndex() +
-                    " roundSize=" + game.getRounds().size() +
-                    "\nCurrentCard=" + game.getCurrentCard() +
-                    " nextCard=" + game.getNextCard());
+        System.out.println("currentRoundIndex=" + game.getCurrentRoundIndex()
+                + " roundSize=" + game.getRounds().size()
+                + "\nCurrentCard=" + game.getCurrentCard()
+                + " nextCard=" + game.getNextCard());
 
-            // positive = higher, negative = lower, 0 = equal
-            int diff = nextCard.getValue() - currentCard.getValue();
-            // evaluate bets
+        // positive = higher, negative = lower, 0 = equal
+        int diff = nextCard.getValue() - currentCard.getValue();
+        // evaluate bets
 
-            Round newRound = new Round();
+        Round newRound = new Round();
 
-            // evalute player states -- bets, balances, ..
-            for (PlayerState oldPlayerState : game.getCurrentRound().getPlayerStates()) {
-                PlayerState newPlayerState = new PlayerState();
-                newPlayerState.setPlayer(oldPlayerState.getPlayer());
-                BigDecimal newBalance = oldPlayerState.getBalance();
-                if (diff != 0) { // not skipped
-                    BetType bt = oldPlayerState.getBet().getType();
-                    boolean correct = ((diff > 0) && bt == BetType.HIGHER) || ((diff < 0) && bt == BetType.LOWER);
-                    newBalance = getNewBalance(oldPlayerState, correct);
-                } else { // skipped
-                    newPlayerState.setBet(oldPlayerState.getBet());
-                }
-                newPlayerState.setBalance(newBalance);
-                newRound.add(newPlayerState);
+        // evalute player states -- bets, balances, ..
+        for (PlayerState oldPlayerState : game.getCurrentRound().getPlayerStates()) {
+            PlayerState newPlayerState = new PlayerState();
+            newPlayerState.setPlayer(oldPlayerState.getPlayer());
+            BigDecimal newBalance = oldPlayerState.getBalance();
+            if (diff != 0) { // not skipped
+                BetType bt = oldPlayerState.getBet().getType();
+                boolean correct = ((diff > 0) && bt == BetType.HIGHER) || ((diff < 0) && bt == BetType.LOWER);
+                newBalance = getNewBalance(oldPlayerState, correct);
+            } else { // skipped
+                newPlayerState.setBet(oldPlayerState.getBet());
             }
-
-            // skip round if cards equal
-            if (diff == 0) {
-                newRound.setSkipped(true);
-            }
-
-            newRound.setCard(nextCard);
-            game.getRounds().add(newRound);
+            newPlayerState.setBalance(newBalance);
+            newRound.add(newPlayerState);
         }
+
+        // skip round if cards equal
+        if (diff == 0) {
+            newRound.setSkipped(true);
+        }
+
+        newRound.setCard(nextCard);
+        game.addRound(newRound);
+
     }
 
-    
     public void evaluateGame(Game game) {
-        // set result of choose winner
+        BigDecimal maxScore = new BigDecimal(0);
+        Player winner = null;
+        for (PlayerState lastState : game.getCurrentRound().getPlayerStates()) {
+            if (lastState.getBalance().compareTo(maxScore) == 1) {
+                maxScore = lastState.getBalance();
+                winner = lastState.getPlayer();
+            }
+        }
+        game.setScore(maxScore);
+        game.setWinner(winner);
+        game.setState(GameState.FINISHED);
     }
 
     private BigDecimal getNewBalance(PlayerState oldPlayerState, boolean correct) {

@@ -11,6 +11,7 @@ public class GameInitialization {
     public void initialize(Game game, int numOfPlayers) {
         game.setPlayers(createPlayers(numOfPlayers));
         game.setDeck(createRandomDeck());
+        game.setDateStarted(new Date());
     }
 
     private List<Player> createPlayers(int numberOfPlayers) {

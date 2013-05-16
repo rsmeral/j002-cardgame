@@ -2,7 +2,9 @@ package cz.muni.fi.j002.cardgamee.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
@@ -10,14 +12,15 @@ import javax.persistence.OneToOne;
 public class PlayerState implements Serializable {
 
     @Id
+    @GeneratedValue
     private Long id;
 
     @OneToOne
     private Player player;
 
     private BigDecimal balance;
-    
-    @OneToOne
+
+    @OneToOne(cascade = CascadeType.ALL)
     private Bet bet = new Bet();
 
     public Long getId() {
@@ -51,5 +54,4 @@ public class PlayerState implements Serializable {
     public void setBet(Bet bet) {
         this.bet = bet;
     }
-    
 }

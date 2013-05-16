@@ -11,6 +11,7 @@ import javax.persistence.*;
 public class Round implements Serializable {
 
     @Id
+    @GeneratedValue
     private Long id;
 
     @ManyToMany(cascade = CascadeType.ALL)
