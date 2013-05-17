@@ -2,6 +2,7 @@ package cz.muni.fi.j002.cardgamee.gameplay;
 
 import cz.muni.fi.j002.cardgamee.model.Game;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -31,14 +32,26 @@ public class GameController implements Serializable {
     public String newGame() {
         // initialize users
         activeGame = new Game();
-        gi.initialize(activeGame, numOfPlayers);
-        gr.create(activeGame);
-        return "newgame";
+        // validate number of players
+        if (gl.validatePositiveInput(BigDecimal.valueOf(numOfPlayers))) {
+            gi.initialize(activeGame, numOfPlayers);
+            gr.create(activeGame);
+            return "newgame";
+        } else {
+            facesContext.addMessage(null, new FacesMessage("Enter at least one player."));
+            return "gamelist";
+        }
     }
 
     public String start() {
-        gl.start(activeGame);
-        return "game";
+        // validate positivity of InitialBalance number
+        if (gl.validatePositiveInput(activeGame.getInitialBalance())) {
+            gl.start(activeGame);
+            return "game";
+        } else {
+            facesContext.addMessage(null, new FacesMessage("You should really start with some money. ;-)"));
+            return "newgame";
+        }
     }
 
     public String finish() {

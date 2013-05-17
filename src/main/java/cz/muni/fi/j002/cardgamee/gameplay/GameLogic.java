@@ -28,35 +28,17 @@ public class GameLogic {
             ps.setBalance(game.getInitialBalance());
             round.add(ps);
         }
-        System.out.println("currentRoundIndex=" + game.getCurrentRoundIndex()
-                + " roundSize=" + game.getRounds().size()
-                + "\nCurrentCard=" + game.getCurrentCard()
-                + " nextCard=" + game.getNextCard());
 
         round.setCard(game.getCurrentCard());
         game.setState(GameState.RUNNING);
-
-
-        System.out.println("currentRoundIndex=" + game.getCurrentRoundIndex()
-                + " roundSize=" + game.getRounds().size()
-                + "\nCurrentCard=" + game.getCurrentCard()
-                + " nextCard=" + game.getNextCard());
-        System.out.println("======");
-
     }
 
     public void nextRound(Game game) {
         Card currentCard = game.getCurrentCard();
         Card nextCard = game.getNextCard();
 
-        System.out.println("currentRoundIndex=" + game.getCurrentRoundIndex()
-                + " roundSize=" + game.getRounds().size()
-                + "\nCurrentCard=" + game.getCurrentCard()
-                + " nextCard=" + game.getNextCard());
-
         // positive = higher, negative = lower, 0 = equal
         int diff = nextCard.getValue() - currentCard.getValue();
-        // evaluate bets
 
         Round newRound = new Round();
 
@@ -117,5 +99,9 @@ public class GameLogic {
             valid = (ps.getBet().getValue().signum() != -1) && (ps.getBet().getValue().compareTo(ps.getBalance()) != 1);
         }
         return valid;
+    }
+
+    public boolean validatePositiveInput(BigDecimal number) {
+        return (number.signum() > 0);
     }
 }

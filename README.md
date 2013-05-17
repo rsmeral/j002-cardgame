@@ -10,20 +10,19 @@ _CardGamEE is a project for the course J002 Requirements Engineering in Agile So
 
 Installation instructions:
 
-You need JBoss 7.2+ application server (haven't tested others)
-JBoss AS 7.2.0.Final ZIP 
-https://www.dropbox.com/s/gbbill0iyf4pmcg/jboss-as-7.2.0.Final.zip
-1)
-mvn clean deploy
+Application was designed for JBoss 7.1.1 application server.
 
-OR 
-2)
-mvn clean install
-start JBoss server via 
-$JBOSS_HOME/bin/standalone.sh
+- mvn clean install
 
-$JBOSS_HOME/bin/jboss-cli.sh "connect, deploy j002-cardgame/target/cardgamee.war --force"
+
+If you're going to use JBoss, start JBoss server as:
+
+- $JBOSS_HOME/bin/standalone.sh
+
+Deploy cardgamee.war on application server:
+- $JBOSS_HOME/bin/jboss-cli.sh "connect, deploy j002-cardgame/target/cardgamee.war --force"
+
 (--force parameter is for redeployment)
 
 Application should run on 
-localhost:8080/cardgamee
+[Localhost](http://localhost:8080/cardgamee)

@@ -13,6 +13,7 @@
             Number of players:
             <h:inputText value="${gameController.numOfPlayers}" />
             <h:commandButton value="New Game" action="#{gameController.newGame()}" />
+            <br><h:messages style="color:red;margin:8px;" /></br>
             <hr />
             <h2>Saved games</h2>
             <h:dataTable value="#{savedGames}" var="game">
