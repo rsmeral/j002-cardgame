@@ -67,9 +67,6 @@ public class GameController implements Serializable {
         gr.delete(game);
     }
 
-//    public void replay(Game game) {
-//        // TODO
-//    }
     public Game getActive() {
         return activeGame;
     }

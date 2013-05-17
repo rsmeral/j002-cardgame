@@ -5,6 +5,7 @@
 *.war
 *.ear
 /target/
+/data/
 .idea/*
 .idea
 cardgamee.iml
