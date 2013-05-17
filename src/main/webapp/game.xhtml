@@ -12,6 +12,7 @@
         <img src="img/#{gameController.active.currentCard}.png" height="200" />
         <br/>
         <h:form>
+            <h:messages style="color:red;margin:8px;" />
             <h:dataTable value="#{gameController.active.currentRound.playerStates}" var="ps">
                 <h:column>
                     <f:facet name="header">Player</f:facet>

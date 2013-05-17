@@ -2,6 +2,8 @@ package cz.muni.fi.j002.cardgamee.gameplay;
 
 import cz.muni.fi.j002.cardgamee.model.Game;
 import java.io.Serializable;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -22,6 +24,9 @@ public class GameController implements Serializable {
 
     @Inject
     private GameRepository gr;
+
+    @Inject
+    private FacesContext facesContext;
 
     public String newGame() {
         // initialize users
@@ -51,7 +56,7 @@ public class GameController implements Serializable {
         activeGame = gr.load(game);
         return "game";
     }
-    
+
     public String replay(Game game) {
         activeGame = gr.load(game);
         activeGame.viewRound(1);
@@ -70,13 +75,17 @@ public class GameController implements Serializable {
     }
 
     public void nextRound() {
-        gl.nextRound(activeGame);
+        if (gl.validateBets(activeGame.getCurrentRound().getPlayerStates())) {
+            gl.nextRound(activeGame);
+        } else {
+            facesContext.addMessage(null, new FacesMessage("All bets must be positive and less than balance"));
+        }
     }
-    
+
     public void viewNextRound() {
-        activeGame.viewRound(activeGame.getCurrentRoundIndex()+2);
+        activeGame.viewRound(activeGame.getCurrentRoundIndex() + 2);
     }
-    
+
     public void viewPreviousRound() {
         activeGame.viewRound(activeGame.getCurrentRoundIndex());
     }
@@ -88,6 +97,4 @@ public class GameController implements Serializable {
     public void setNumOfPlayers(int numOfPlayers) {
         this.numOfPlayers = numOfPlayers;
     }
-    
-    
 }

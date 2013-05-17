@@ -9,6 +9,8 @@ import cz.muni.fi.j002.cardgamee.model.Player;
 import cz.muni.fi.j002.cardgamee.model.PlayerState;
 import cz.muni.fi.j002.cardgamee.model.Round;
 import java.math.BigDecimal;
+import java.util.Iterator;
+import java.util.List;
 import javax.inject.Singleton;
 
 @Singleton
@@ -104,5 +106,16 @@ public class GameLogic {
         } else {
             return oldPlayerState.getBalance().subtract(oldPlayerState.getBet().getValue());
         }
+    }
+
+    public boolean validateBets(List<PlayerState> playerStates) {
+        boolean valid = true;
+        Iterator<PlayerState> it = playerStates.listIterator();
+        while(valid && it.hasNext()) {
+            PlayerState ps = it.next();
+            // bet value is not negative AND bet value is not bigger than balance
+            valid = (ps.getBet().getValue().signum() != -1) && (ps.getBet().getValue().compareTo(ps.getBalance()) != 1);
+        }
+        return valid;
     }
 }
