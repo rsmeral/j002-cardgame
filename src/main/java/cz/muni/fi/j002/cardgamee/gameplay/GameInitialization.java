@@ -35,9 +35,7 @@ public class GameInitialization {
         for (Card c : Card.values()) {
             deck.add(c);
         }
-
         Collections.shuffle(deck);
-        System.out.println(deck);
         return deck;
     }
 }
