@@ -2,12 +2,12 @@ package cz.muni.fi.j002.cardgamee.gameplay;
 
 import cz.muni.fi.j002.cardgamee.model.Game;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
+import javax.validation.constraints.DecimalMin;
 
 @Singleton
 @Named
@@ -15,6 +15,7 @@ public class GameController implements Serializable {
 
     private Game activeGame;
 
+    @DecimalMin("2")
     private int numOfPlayers;
 
     @Inject
@@ -32,26 +33,14 @@ public class GameController implements Serializable {
     public String newGame() {
         // initialize users
         activeGame = new Game();
-        // validate number of players
-        if (gl.validatePositiveInput(BigDecimal.valueOf(numOfPlayers))) {
-            gi.initialize(activeGame, numOfPlayers);
-            gr.create(activeGame);
-            return "newgame";
-        } else {
-            facesContext.addMessage(null, new FacesMessage("Enter at least one player."));
-            return "gamelist";
-        }
+        gi.initialize(activeGame, numOfPlayers);
+        gr.create(activeGame);
+        return "newgame";
     }
 
     public String start() {
-        // validate positivity of InitialBalance number
-        if (gl.validatePositiveInput(activeGame.getInitialBalance())) {
-            gl.start(activeGame);
-            return "game";
-        } else {
-            facesContext.addMessage(null, new FacesMessage("You should really start with some money. ;-)"));
-            return "newgame";
-        }
+        gl.start(activeGame);
+        return "game";
     }
 
     public String finish() {

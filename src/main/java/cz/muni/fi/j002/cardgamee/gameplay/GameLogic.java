@@ -1,6 +1,5 @@
 package cz.muni.fi.j002.cardgamee.gameplay;
 
-import cz.muni.fi.j002.cardgamee.model.Bet;
 import cz.muni.fi.j002.cardgamee.model.BetType;
 import cz.muni.fi.j002.cardgamee.model.Card;
 import cz.muni.fi.j002.cardgamee.model.Game;
@@ -93,15 +92,11 @@ public class GameLogic {
     public boolean validateBets(List<PlayerState> playerStates) {
         boolean valid = true;
         Iterator<PlayerState> it = playerStates.listIterator();
-        while(valid && it.hasNext()) {
+        while (valid && it.hasNext()) {
             PlayerState ps = it.next();
             // bet value is not negative AND bet value is not bigger than balance
             valid = (ps.getBet().getValue().signum() != -1) && (ps.getBet().getValue().compareTo(ps.getBalance()) != 1);
         }
         return valid;
-    }
-
-    public boolean validatePositiveInput(BigDecimal number) {
-        return (number.signum() > 0);
     }
 }

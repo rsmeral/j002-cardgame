@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:c="http://java.sun.com/jsp/jstl/core">
+      xmlns:f="http://java.sun.com/jsf/core">
     <head>
         <title>CardGamEE</title>
     </head>
@@ -14,8 +12,10 @@
             <h:inputText value="${gameController.numOfPlayers}" />
             <h:commandButton value="New Game" action="#{gameController.newGame()}" />
             <br><h:messages style="color:red;margin:8px;" /></br>
-            <hr />
-            <h2>Saved games</h2>
+        </h:form>
+        <hr />
+        <h2>Saved games</h2>
+        <h:form>
             <h:dataTable value="#{savedGames}" var="game">
                 <h:column>
                     <f:facet name="header">Date</f:facet>
@@ -34,8 +34,10 @@
                     <h:commandButton value="Delete" action="#{gameController.delete(game)}" />
                 </h:column>
             </h:dataTable>
-            <hr />
-            <h2>High scores</h2>
+        </h:form>
+        <hr />
+        <h2>High scores</h2>
+        <h:form> 
             <h:dataTable value="#{bestGames}" var="game">
                 <h:column>
                     <f:facet name="header">Score</f:facet>
