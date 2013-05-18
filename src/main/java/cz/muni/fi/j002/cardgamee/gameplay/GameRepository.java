@@ -17,11 +17,11 @@ public class GameRepository {
         Game g = em.find(Game.class, game.getId());
         Hibernate.initialize(g.getPlayers());
         Hibernate.initialize(g.getRounds());
-        for(Round r : g.getRounds()) {
+        for (Round r : g.getRounds()) {
             Hibernate.initialize(r.getPlayerStates());
         }
         Hibernate.initialize(g.getDeck());
-        
+
         return g;
 
     }

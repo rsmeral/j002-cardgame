@@ -5,19 +5,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Temporal;
-import javax.persistence.Transient;
+import javax.persistence.*;
+import javax.validation.constraints.DecimalMin;
 
 @Entity
 public class Game implements Serializable {
@@ -35,6 +24,8 @@ public class Game implements Serializable {
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date dateStarted;
 
+    @DecimalMin(value = "0")
+    @Transient
     private BigDecimal initialBalance;
 
     private int numOfRounds;

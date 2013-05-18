@@ -1,25 +1,21 @@
 package cz.muni.fi.j002.cardgamee.model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
-public class Bet {
+public class Bet implements Serializable {
 
     @Id
     @GeneratedValue
     private Long id;
 
-    @Column(name="val")
+    @Column(name = "val")
     private BigDecimal value;
-    
+
     @Enumerated
     private BetType type;
-
 
     public Long getId() {
         return id;

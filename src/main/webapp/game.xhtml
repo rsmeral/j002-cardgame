@@ -39,7 +39,7 @@
             <h:commandButton value="Next" action="#{gameController.viewNextRound()}" rendered="#{(not gameController.active.lastRound) and (gameController.active.state == 'FINISHED')}"/>
             <hr />
             <h:commandButton value="Back to Main Menu" action="gamelist" rendered="#{gameController.active.state == 'FINISHED'}" />
-            
+
             <h:commandButton value="Proceed" action="#{gameController.nextRound()}" rendered="#{(not gameController.active.lastRound) and (gameController.active.state == 'RUNNING')}"/>
             <h:commandButton value="Finish" action="#{gameController.finish()}" rendered="#{gameController.active.lastRound and (gameController.active.state == 'RUNNING')}"/>
             <hr />

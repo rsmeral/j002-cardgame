@@ -1,4 +1,4 @@
-package cz.muni.fi.j002.cardgamee.jsf;
+package cz.muni.fi.j002.cardgamee.util;
 
 import cz.muni.fi.j002.cardgamee.model.BetType;
 import javax.enterprise.context.ApplicationScoped;

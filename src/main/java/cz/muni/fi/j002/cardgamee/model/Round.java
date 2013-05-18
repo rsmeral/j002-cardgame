@@ -2,9 +2,7 @@ package cz.muni.fi.j002.cardgamee.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import javax.persistence.*;
 
 @Entity
@@ -56,6 +54,4 @@ public class Round implements Serializable {
     public List<PlayerState> getPlayerStates() {
         return playerStates;
     }
-    
-    
 }

@@ -1,7 +1,6 @@
 package cz.muni.fi.j002.cardgamee.gameplay;
 
 import cz.muni.fi.j002.cardgamee.model.*;
-
 import java.util.*;
 import javax.inject.Singleton;
 

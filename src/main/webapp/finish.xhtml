@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:h="http://java.sun.com/jsf/html">
     <head>
         <title>CardGamEE</title>
     </head>
     <body>
         <h1>Game finished</h1>
         <h2>Winner: #{gameController.active.winner.name} (Score: #{gameController.active.score})</h2>
-        
+
         <h:form>
             <h:commandButton value="Back to Main Menu" action="gamelist" />
         </h:form>
